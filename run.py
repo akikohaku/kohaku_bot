@@ -10,4 +10,5 @@ print("initialed")
 
 
 #MessageSender.send_message("琥珀","在干嘛")
-MessageReader.read_last_message()
+message=MessageReader.read_last_message("琥狐泊")
+print(message)

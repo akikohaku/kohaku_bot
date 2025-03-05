@@ -6,10 +6,10 @@ from paddleocr import PaddleOCR, draw_ocr
 
 def init():
     global ocr
-    ocr = PaddleOCR(use_angle_cls=False,use_gpu=True, lang="ch",show_log=False) 
+    ocr = PaddleOCR(use_angle_cls=False,use_gpu=True, det_lang = "ml",show_log=False) 
 
 def get_messageList(image):
-    result=ocr.ocr(image,cls=True)
+    result=ocr.ocr(image)
     return result
 
 def get_messageLoaction(OcrResult,name):

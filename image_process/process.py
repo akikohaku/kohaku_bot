@@ -90,7 +90,7 @@ def get_DialogueContent(image):
     return cropped
 
 def get_IDContent(image):
-    cropped = image[1:45, 145:1080]  # 裁剪坐标为[y0:y1, x0:x1]
+    cropped = image[1:45, 145:785]  # 裁剪坐标为[y0:y1, x0:x1]
     return cropped
 
 
@@ -98,5 +98,17 @@ def get_pixel_color(image,x,y):
     b, g, r = image[y, x]
 
     return b,g,r
+
+def enhanceID(image):
+    # 转换为灰度图
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # 亮度阈值
+    threshold = 90
+
+    # 二值化：大于90的设为白色，小于等于90的设为黑色
+    _, binary = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY)
+    return binary
+
 
     
