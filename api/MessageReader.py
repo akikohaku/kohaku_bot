@@ -9,9 +9,18 @@ def read_last_message():
     validRegion=process.split_image(image)
     for idx, (start, end) in enumerate(validRegion):
         cropped_img = image[start:end + 1, :]
-        OcrResult=imageOcr.get_messageList(cropped_img)
-        print(start)
-        print(end)
-        print(OcrResult)
-        print("------------------------------\n")
+        cv2.imwrite(f"{idx}.png", cropped_img)
+        if process.isFullDialogue(cropped_img):
+            #OcrResult=imageOcr.get_messageList(cropped_img)
+            OcrID=imageOcr.get_messageList(process.get_IDContent(cropped_img))
+            OcrMessage=imageOcr.get_messageList(process.get_DialogueContent(cropped_img))
+            print(OcrID)
+            ID = [detection[1][0] for line in OcrID for detection in line][0] 
+            print(ID)
+            MessageOutcome = [detection[1][0] for line in OcrMessage for detection in line]
+            Message=""
+            for idx in range(len(MessageOutcome)):
+                Message+=MessageOutcome[idx]
+            print(Message)
+            print("------------------------------\n")
     

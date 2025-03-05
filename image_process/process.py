@@ -12,7 +12,7 @@ def get_messageArea():
 
 def get_dialogueArea():
     image=read_image(screenshot.get_screenshot())
-    cropped = image[420:2025, 0:940]  # 裁剪坐标为[y0:y1, x0:x1]
+    cropped = image[420:2025, 0:1080]  # 裁剪坐标为[y0:y1, x0:x1]
     return cropped
 
 
@@ -69,3 +69,34 @@ def split_image(img):
     
     
     return valid_regions
+
+def isFullDialogue(image):
+    height, width, _ = image.shape
+    # print(height,width)
+    b,g,r=get_pixel_color(image,180,height-1)
+    # print(b,g,r)
+    if (b, g, r) == (255, 255, 255):
+        b,g,r = get_pixel_color(image,160,1)
+        if (b, g, r) == (255, 255, 255):
+            return False
+        else:
+            return True
+    else:
+        return False
+    
+def get_DialogueContent(image):
+    height,width,_=image.shape
+    cropped = image[88:height-1, 168:1080]  # 裁剪坐标为[y0:y1, x0:x1]
+    return cropped
+
+def get_IDContent(image):
+    cropped = image[1:45, 145:1080]  # 裁剪坐标为[y0:y1, x0:x1]
+    return cropped
+
+
+def get_pixel_color(image,x,y):
+    b, g, r = image[y, x]
+
+    return b,g,r
+
+    
