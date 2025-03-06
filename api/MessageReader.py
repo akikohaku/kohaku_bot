@@ -15,7 +15,7 @@ def read_last_message(targerName):
     messageLocation[0][0]+=380
     messageLocation[0][1]+=200
     operator.click(messageLocation)
-    time.sleep(0.5)
+    time.sleep(2.5)
     image=process.get_dialogueArea()
     validRegion=process.split_image(image,241,241,241)
     
