@@ -3,7 +3,8 @@ import time
 
 
 def click(point):
-    os.system('adb shell input tap '+str(point[0][0])+' '+str(point[0][1]))
+    print(point[0][0],point[0][1])
+    os.system('adb shell input tap '+str(point[0][1])+' '+str(point[0][0]))
 
 def click_xy(x,y):
     os.system('adb shell input tap '+str(x)+' '+str(y))

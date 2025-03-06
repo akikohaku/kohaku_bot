@@ -7,7 +7,12 @@ def read_image(file_path):
 
 def get_messageArea():
     image=read_image(screenshot.get_screenshot())
-    cropped = image[220:2016, 200:880]  # 裁剪坐标为[y0:y1, x0:x1]
+    cropped = image[360:2016, 200:880]  # 裁剪坐标为[y0:y1, x0:x1]
+    return cropped
+
+def get_fullMessageArea():
+    image=read_image(screenshot.get_screenshot())
+    cropped = image[360:2016, 0:1080]  # 裁剪坐标为[y0:y1, x0:x1]
     return cropped
 
 def get_dialogueArea():
@@ -15,15 +20,25 @@ def get_dialogueArea():
     cropped = image[420:2025, 0:1080]  # 裁剪坐标为[y0:y1, x0:x1]
     return cropped
 
+def checkPixelColor(image,r,g,b):
+    # 目标像素值 (BGR 格式)
+    target_pixel = np.array([b, g, r])
+
+    # 检查是否存在该像素
+    exists = np.any(np.all(image == target_pixel, axis=-1))
+    if exists:
+        return True
+    else:
+        return False
 
 
-def find_split_rows(img):
+def find_split_rows(img,r,g,b):
     """找出所有行全为 f0f0f0 (RGB) 的行索引"""
     height, width, _ = img.shape
     split_rows = []
     
     for y in range(height):
-        if np.all(img[y, :] == [241, 241, 241]):  # OpenCV 采用 BGR 排序
+        if np.all(img[y, :] == [b, g, r]):  # OpenCV 采用 BGR 排序
             split_rows.append(y)
     
     return split_rows
@@ -59,11 +74,11 @@ def get_valid_split_regions(split_regions, total_height):
     
     return [(s, e) for s, e in split_points if s <= e]
 
-def split_image(img):
+def split_image(img,r,g,b):
     """处理图像并拆分保存各部分"""
     height, width, _ = img.shape
     
-    split_rows = find_split_rows(img)
+    split_rows = find_split_rows(img,r,g,b)
     split_regions = group_continuous_rows(split_rows)
     valid_regions = get_valid_split_regions(split_regions, height)
     
